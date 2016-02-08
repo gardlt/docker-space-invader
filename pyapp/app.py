@@ -13,10 +13,6 @@ pygame.mouse.set_visible(0)
 ship = Ship()
 ship.setStartingPoint(screen)
 
-# ship = pygame.image.load("images/ship.png")
-# ship_top = screen.get_height() - ship.get_height()
-# ship_left = screen.get_width() / 2 - ship.get_width() / 2
-
 screen.blit(ship.image, ship.position)
 
 while True:

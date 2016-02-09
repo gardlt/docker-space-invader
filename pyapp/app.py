@@ -17,7 +17,9 @@ ship = Ship()
 ship.setStartingPoint(screen)
 
 screen.blit(ship.image, ship.position)
+
 bullet = pygame.image.load(PROJECT_PATH + "/images/laser.png")
+
 shoot_y = 0
 
 while True:

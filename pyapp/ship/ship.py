@@ -1,8 +1,10 @@
 import pygame
 
+from settings import PROJECT_PATH
+
 class Ship:
     def __init__(self):
-        self.image = pygame.image.load("./images/ship.png")
+        self.image = pygame.image.load(PROJECT_PATH + "/ship/images/ship.png")
         self.position = (0, 0)
 
     def setStartingPoint(self, screen):

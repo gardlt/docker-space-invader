@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import pygame
 import sys
-from settings import PROJECT_PATH
 from pygame.locals import MOUSEBUTTONDOWN
 from ship.ship import Ship
+from bullet.bullet import Bullet
 
 DISPLAY_SIZE = (800, 600)
 BLACK_COLOR = (0, 0, 0)
@@ -13,30 +13,36 @@ screen = pygame.display.set_mode(DISPLAY_SIZE)
 
 pygame.mouse.set_visible(0)
 
+# Ship
 ship = Ship()
 ship.setStartingPoint(screen)
-
 screen.blit(ship.image, ship.position)
 
-bullet = pygame.image.load(PROJECT_PATH + "/images/laser.png")
+# Bullet
+bullet = None
 
-shoot_y = 0
+# Enemies
 
 while True:
     clock.tick(60)
     screen.fill(BLACK_COLOR)
-    x, y = pygame.mouse.get_pos()
-    screen.blit(ship.image, (x - ship.image.get_width() / 2, ship.position[1]))
+
+    # Ship movement
+    screen.blit(ship.image, ((ship.position[0] - ship.image.get_width() / 2),
+                             ship.position[1]))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        elif (event.type == MOUSEBUTTONDOWN):
-            shoot_y = ship.position[1]
-            shoot_x = x
+        elif event.type == MOUSEBUTTONDOWN and bullet is None:
+            bullet = Bullet()
+            bullet.setStartingPoint(ship.position)
 
-    if shoot_y > 0:
-        screen.blit(bullet, (shoot_x, shoot_y))
-        shoot_y = shoot_y - 5
+    if not(bullet is None):
+        if bullet.position[1] > 0:
+            screen.blit(bullet.image, bullet.position)
+            bullet.position = (bullet.position[0], bullet.position[1] - 5)
+        else:
+            bullet = None
 
     pygame.display.update()

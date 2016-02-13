@@ -1,10 +1,12 @@
 import pygame
-from enemies.enemy import Enemy
 
-class Hydralisk(Enemy):
+class Enemy:
     def __init__(self):
         self.image = pygame.image.load("./images/Hydralisk.png")
         self.position = (0, 0)
+        self.hit = False
+        self.speed = 1
+        self.points = 0
 
     def setStartingPoint(self, screen):
         x_axis = 0

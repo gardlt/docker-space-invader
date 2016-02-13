@@ -4,6 +4,7 @@ import sys
 from pygame.locals import MOUSEBUTTONDOWN
 from ship.ship import Ship
 from bullet.bullet import Bullet
+from zergling.zergling import Zergling
 
 DISPLAY_SIZE = (800, 600)
 BLACK_COLOR = (0, 0, 0)
@@ -23,9 +24,22 @@ bullet = None
 
 # Enemies
 
+zerglings = []
+
+for x in range(2):
+    tempZerg = Zergling()
+    tempZerg.position = (5 + x * 102, 5 + x * 102)
+    zerglings.append(tempZerg)
+
+print zerglings
+
 while True:
     clock.tick(60)
     screen.fill(BLACK_COLOR)
+
+    # Enemies movement
+    for zerg in zerglings:
+        screen.blit(zerg.image, zerg.position)
 
     # Ship movement
     screen.blit(ship.image, ((ship.position[0] - ship.image.get_width() / 2),

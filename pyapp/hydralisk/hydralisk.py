@@ -1,8 +1,9 @@
 import pygame
+from enemy.enemy import Enemy
 
-class Zergling():
+class Hydralisk(Enemy):
     def __init__(self):
-        self.image = pygame.image.load("./images/zergling.png")
+        self.image = pygame.image.load("./images/Hydralisk.png")
         self.position = (0, 0)
 
     def setStartingPoint(self, screen):

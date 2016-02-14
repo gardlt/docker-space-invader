@@ -4,8 +4,9 @@ from enemy.enemy import Enemy
 
 class Zergling(Enemy):
     def __init__(self):
-        self.image = pygame.image.load(PROJECT_PATH +
-                                       "/zergling/images/enemy3_1.png")
+        self.image = pygame.transform.scale(pygame.image.load(PROJECT_PATH +
+                                            "/zergling/images/enemy3_1.png")
+                                            , (50, 50))
         self.position = (5, 5)
         self.hit = False
         self.speed = 1

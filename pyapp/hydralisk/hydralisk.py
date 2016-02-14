@@ -1,12 +1,19 @@
 import pygame
+from settings import PROJECT_PATH, ENEMY_DEFAULT_SIZE
 from enemy.enemy import Enemy
 
 class Hydralisk(Enemy):
     def __init__(self):
-        self.image = pygame.image.load("./images/Hydralisk.png")
+        self.image = pygame.transform.scale(pygame.image.load(PROJECT_PATH +
+                                            "/hydralisk/images/enemy2_1.png")
+                                            , ENEMY_DEFAULT_SIZE)
+        self.hit = False
+        self.speed = 1
+        self.points = 2
         self.position = (0, 0)
 
-    def setStartingPoint(self, screen):
-        x_axis = 0
-        y_axis = 0
-        self.position = (x_axis, y_axis)
+    def setStartingPoint(self, newPosition):
+        self.position = newPosition
+
+    def update(self):
+        pass

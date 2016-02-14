@@ -1,8 +1,8 @@
-
+from settings import DEFAULT_LIVES
 class Player:
     def __init__(self):
-        self.lives = 3
+        self.lives = DEFAULT_LIVES
         self.score = 0
 
     def setStartingPoint(self, screen):
-        self.position = (x_axis, y_axis)
+        pass

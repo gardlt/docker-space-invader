@@ -2,13 +2,15 @@
 import pygame
 import sys
 # from pygame.locals import *
-from settings import BLACK_COLOR, DISPLAY_SIZE
+from pygame import sprite
+from settings import BLACK_COLOR, DISPLAY_SIZE, WHITE_COLOR
 from ship.ship import Ship
 from bullet.bullet import Bullet
 from zergling.zergling import Zergling
 from brutalisk.brutalisk import Brutalisk
 from hydralisk.hydralisk import Hydralisk
 from player.player import Player
+from collision.collision import Collision
 
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode(DISPLAY_SIZE)
@@ -17,7 +19,7 @@ pygame.mouse.set_visible(0)
 
 # Create Player
 player = Player()
-
+collision = Collision()
 # Create Ship
 ship = Ship()
 ship.setStartingPoint(screen)
@@ -26,7 +28,7 @@ ship.setStartingPoint(screen)
 bullet = None
 
 # Create Enemies
-zerglings = []
+zerglings = sprite.Group()
 
 # Font Creations
 pygame.init()
@@ -43,21 +45,22 @@ for row in range(5):
             tempZerg = Zergling()
 
         tempZerg.setStartingPoint((25 + (column * 50), 50 + (row * 50)))
-        zerglings.append(tempZerg)
+        zerglings.add(tempZerg)
 
 while True:
     clock.tick(60)
     screen.fill(BLACK_COLOR)
 
     # Menu Options
-    score = font.render("Score: " + str(player.score), 1, (255, 255, 255))
-    lives = font.render("Lives: " + str(player.lives), 1, (255, 255, 255))
+    score = font.render("Score: " + str(player.score), 1, WHITE_COLOR)
+    lives = font.render("Lives: " + str(player.lives), 1, WHITE_COLOR)
     screen.blit(score, score.get_rect())
     screen.blit(lives, (screen.get_width() / 2, 0))
 
     # Enemies movement
-    for zerg in zerglings:
-        screen.blit(zerg.image, zerg.position)
+    zerglings.draw(screen)
+    # for zerg in zerglings:
+    #     screen.blit(zerg.image, zerg.position)
 
     # Ship movement
     screen.blit(ship.image, ((ship.position[0] - ship.image.get_width() / 2),
@@ -85,3 +88,6 @@ while True:
     pygame.display.update()
 
     # update Enemies
+    collision.collision_check(zerglings, ship, bullet)
+    # enemiesdict = sprite.groupcollide(bullet, zerglings, True, False)
+    # print enemiesdict

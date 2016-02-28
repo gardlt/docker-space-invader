@@ -12,10 +12,7 @@ class Mothership(sprite.Sprite):
         self.speed = 1
         self.points = 2
         self.position = (0, 0)
-        self.rect = self.image.get_rect()
-
-    def setStartingPoint(self, newPosition):
-        self.positon = newPosition
+        self.rect = pygame.Rect(x_pos, y_pos, 32, 32)
 
     def update(self):
         pass

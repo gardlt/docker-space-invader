@@ -1,13 +1,18 @@
 import pygame
-from settings import PROJECT_PATH
 from pygame import sprite
 
+from settings import PROJECT_PATH
+
 class Bullet(sprite.Sprite):
-    def __init__(self):
+    def __init__(self, pos):
+        sprite.Sprite.__init__(self)
         self.image = pygame.image.load(PROJECT_PATH +
                                        "/bullet/images/laser.png")
-        self.position = (0, 0)
-        self.rect = self.image.get_rect()
+        self.rect = pygame.Rect(pos[0], pos[1], 32, 32)
+        self.out_of_bounds = False
 
-    def setStartingPoint(self, shipPosition):
-        self.position = shipPosition
+    def update(self):
+        if self.rect[1] > 0:
+            self.rect = (self.rect[0], self.rect[1] - 5)
+        else:
+            self.kill()

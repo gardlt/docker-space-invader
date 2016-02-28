@@ -61,6 +61,7 @@ while True:
     zerglings.draw(screen)
     ship.draw(screen)
     bullet.draw(screen)
+
     # for zerg in zerglings:
     #     screen.blit(zerg.image, zerg.position)
 
@@ -74,9 +75,7 @@ while True:
         ship.update(event, bullet)
 
     bullet.update()
-    pygame.display.update()
+
     sprite.groupcollide(bullet, zerglings, True, True)
-    # update Enemies
-    # collision.collision_check(zerglings, ship, bullet)
-    # enemiesdict = sprite.groupcollide(bullet, zerglings, True, False)
-    # print enemiesdict
+
+    pygame.display.update()

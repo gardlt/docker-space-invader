@@ -8,11 +8,10 @@ class Bullet(sprite.Sprite):
         sprite.Sprite.__init__(self)
         self.image = pygame.image.load(PROJECT_PATH +
                                        "/bullet/images/laser.png")
-        self.rect = pygame.Rect(pos[0], pos[1], 32, 32)
-        self.out_of_bounds = False
+        self.rect = self.image.get_rect(topleft=pos)
 
     def update(self):
         if self.rect[1] > 0:
-            self.rect = (self.rect[0], self.rect[1] - 5)
+            self.rect = self.image.get_rect(topleft=(self.rect[0], self.rect[1] - 5))
         else:
             self.kill()

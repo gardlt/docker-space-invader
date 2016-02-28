@@ -9,11 +9,8 @@ class Brutalisk(sprite.Sprite):
         self.image = pygame.transform.scale(pygame.image.load(PROJECT_PATH +
                                             "/brutalisk/images/enemy1_1.png")
                                             , ENEMY_DEFAULT_SIZE)
-        self.hit = False
-        self.speed = 1
-        self.points = 2
         # position of the image
-        self.rect = pygame.Rect(x_pos, y_pos, 32, 32)
+        self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
 
     def update(self):
         pass

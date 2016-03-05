@@ -1,5 +1,5 @@
 import pygame
-from settings import PROJECT_PATH, ENEMY_DEFAULT_SIZE
+from settings import PROJECT_PATH, ENEMY_DEFAULT_SIZE, HYDRALISK_POINTS
 from pygame import sprite
 
 class Hydralisk(sprite.Sprite):
@@ -9,6 +9,7 @@ class Hydralisk(sprite.Sprite):
                                             "/hydralisk/images/enemy2_1.png")
                                             , ENEMY_DEFAULT_SIZE)
         self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
+        self.points = HYDRALISK_POINTS
 
     def update(self):
         pass

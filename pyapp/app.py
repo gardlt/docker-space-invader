@@ -76,6 +76,9 @@ while True:
 
     bullet.update()
 
-    sprite.groupcollide(bullet, zerglings, True, True)
+    kill_list = sprite.groupcollide(bullet, zerglings, True, True)
+    for val in kill_list.values():
+        for x in val:
+            player.add_pointes(x.points)
 
     pygame.display.update()

@@ -1,19 +1,15 @@
 import pygame
-from settings import PROJECT_PATH, ENEMY_DEFAULT_SIZE
-from enemy.enemy import Enemy
+from settings import PROJECT_PATH, ENEMY_DEFAULT_SIZE, ZERGLING_POINTS
+from pygame import sprite
 
-class Zergling(Enemy):
-    def __init__(self):
+class Zergling(sprite.Sprite):
+    def __init__(self, x_pos, y_pos):
+        sprite.Sprite.__init__(self)
         self.image = pygame.transform.scale(pygame.image.load(PROJECT_PATH +
                                             "/zergling/images/enemy3_1.png")
                                             , ENEMY_DEFAULT_SIZE)
-        self.hit = False
-        self.speed = 1
-        self.points = 2
-        self.position = (0, 0)
-
-    def setStartingPoint(self, newPosition):
-        self.position = newPosition
+        self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
+        self.points = ZERGLING_POINTS
 
     def update(self):
         pass

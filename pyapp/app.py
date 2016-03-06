@@ -2,13 +2,14 @@
 import pygame
 import sys
 # from pygame.locals import *
-from settings import BLACK_COLOR, DISPLAY_SIZE
+from pygame import sprite
+from settings import BLACK_COLOR, DISPLAY_SIZE, WHITE_COLOR
 from ship.ship import Ship
-from bullet.bullet import Bullet
 from zergling.zergling import Zergling
 from brutalisk.brutalisk import Brutalisk
 from hydralisk.hydralisk import Hydralisk
 from player.player import Player
+from collision.collision import Collision
 
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode(DISPLAY_SIZE)
@@ -17,71 +18,67 @@ pygame.mouse.set_visible(0)
 
 # Create Player
 player = Player()
+collision = Collision()
 
 # Create Ship
-ship = Ship()
-ship.setStartingPoint(screen)
+ship = sprite.Group()
+ship.add(Ship(screen))
 
 # Init Bullet
-bullet = None
+bullet = sprite.Group()
 
 # Create Enemies
-zerglings = []
+zerglings = sprite.Group()
 
 # Font Creations
 pygame.init()
 font = pygame.font.Font(None, 36)
 
+# Enemy Populate
 for row in range(5):
     for column in range(10):
         tempZerg = None
         if(row is 0):
-            tempZerg = Brutalisk()
+            tempZerg = Brutalisk((25 + (column * 50)), (50 + (row * 50)))
         elif(row is 1 or row is 2):
-            tempZerg = Hydralisk()
+            tempZerg = Hydralisk((25 + (column * 50)), (50 + (row * 50)))
         else:
-            tempZerg = Zergling()
+            tempZerg = Zergling((25 + (column * 50)), (50 + (row * 50)))
 
-        tempZerg.setStartingPoint((25 + (column * 50), 50 + (row * 50)))
-        zerglings.append(tempZerg)
+        zerglings.add(tempZerg)
 
 while True:
     clock.tick(60)
     screen.fill(BLACK_COLOR)
 
     # Menu Options
-    score = font.render("Score: " + str(player.score), 1, (255, 255, 255))
-    lives = font.render("Lives: " + str(player.lives), 1, (255, 255, 255))
+    score = font.render("Score: " + str(player.score), 1, WHITE_COLOR)
+    lives = font.render("Lives: " + str(player.lives), 1, WHITE_COLOR)
     screen.blit(score, score.get_rect())
     screen.blit(lives, (screen.get_width() / 2, 0))
 
     # Enemies movement
-    for zerg in zerglings:
-        screen.blit(zerg.image, zerg.position)
+    zerglings.draw(screen)
+    ship.draw(screen)
+    bullet.draw(screen)
+
+    # for zerg in zerglings:
+    #     screen.blit(zerg.image, zerg.position)
 
     # Ship movement
-    screen.blit(ship.image, ((ship.position[0] - ship.image.get_width() / 2),
-                             ship.position[1]))
+    #screen.blit(ship.image, ((ship.position[0] - ship.image.get_width() / 2),
+    #                         ship.position[1]))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and bullet is None:
-                bullet = Bullet()
-                bullet.setStartingPoint(ship.position)
-            if event.key == pygame.K_LEFT:
-                ship.position = (ship.position[0] - 5, ship.position[1])
-            if event.key == pygame.K_RIGHT:
-                ship.position = (ship.position[0] + 5, ship.position[1])
+        ship.update(event, bullet)
 
-    if not(bullet is None):
-        if bullet.position[1] > 0:
-            screen.blit(bullet.image, bullet.position)
-            bullet.position = (bullet.position[0], bullet.position[1] - 5)
-        else:
-            bullet = None
+    bullet.update()
+
+    kill_list = sprite.groupcollide(bullet, zerglings, True, True)
+    for val in kill_list.values():
+        for x in val:
+            player.add_pointes(x.points)
 
     pygame.display.update()
-
-    # update Enemies

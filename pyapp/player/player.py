@@ -4,5 +4,5 @@ class Player:
         self.lives = DEFAULT_LIVES
         self.score = 0
 
-    def setStartingPoint(self, screen):
-        pass
+    def add_pointes(self, points):
+        self.score = self.score + points
